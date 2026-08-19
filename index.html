@@ -10,50 +10,35 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Playfair+Display:ital,wght@0,600;1,600&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style id="printStyle">@page{size:auto;margin:0}</style>
 <style>
 :root{
-  --ink:#150E2B;
-  --ink-2:#1E1440;
-  --ink-3:#2B1F54;
-  --line:#3C2C74;
-  --bulb:#FFC24A;
-  --bulb-soft:rgba(255,194,74,.5);
-  --signal:#FF4B5C;
-  --paper:#FBF7EE;
-  --dim:#A79BC9;
+  --ink:#150E2B; --ink-2:#1E1440; --ink-3:#2B1F54; --line:#3C2C74;
+  --bulb:#FFC24A; --bulb-soft:rgba(255,194,74,.5); --signal:#FF4B5C; --paper:#FBF7EE; --dim:#A79BC9;
   --display:'Bungee',Impact,system-ui,sans-serif;
   --body:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
   --mono:'Space Mono',ui-monospace,SFMono-Regular,monospace;
-  --r:14px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{
-  margin:0;background:var(--ink);color:var(--paper);font-family:var(--body);
-  font-size:16px;line-height:1.45;overflow-x:hidden;
-  background-image:radial-gradient(120% 80% at 50% -10%,#33215F 0%,rgba(51,33,95,0) 60%);
-  background-attachment:fixed;
-}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:16px;line-height:1.45;overflow-x:hidden;
+  background-image:radial-gradient(120% 80% at 50% -10%,#33215F 0%,rgba(51,33,95,0) 60%);background-attachment:fixed}
 button{font:inherit;color:inherit;cursor:pointer}
 :focus-visible{outline:3px solid var(--bulb);outline-offset:3px;border-radius:6px}
 .hide{display:none !important}
-
-/* ---------- screens ---------- */
 .screen{display:none;min-height:100dvh}
 .screen.on{display:block}
 
-/* ---------- marquee sign ---------- */
 .sign{position:relative;border:2px solid var(--line);border-radius:18px;background:linear-gradient(180deg,var(--ink-3),var(--ink-2));padding:22px 26px;text-align:center;overflow:hidden}
 .sign::after{content:"";position:absolute;inset:0;background:radial-gradient(90% 140% at 50% 0%,rgba(255,194,74,.14),transparent 65%);pointer-events:none}
 .sign .rail{position:absolute;left:12px;right:12px;display:flex;justify-content:space-between}
 .sign .rail.t{top:8px}.sign .rail.b{bottom:8px}
 .sign .rail i{width:6px;height:6px;border-radius:50%;background:var(--bulb);box-shadow:0 0 8px var(--bulb-soft);animation:blink 2.6s infinite}
 @keyframes blink{0%,100%{opacity:1}45%{opacity:.25}}
-.wordmark{font-family:var(--display);font-size:clamp(30px,9vw,52px);letter-spacing:.02em;margin:6px 0 2px;color:var(--paper);text-shadow:0 0 24px rgba(255,194,74,.35)}
+.wordmark{font-family:var(--display);font-size:clamp(30px,9vw,52px);letter-spacing:.02em;margin:6px 0 2px;text-shadow:0 0 24px rgba(255,194,74,.35)}
 .wordmark span{color:var(--bulb)}
 .tagline{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
 
-/* ---------- setup ---------- */
 .wrap{max-width:1180px;margin:0 auto;padding:22px 18px 60px;padding-bottom:calc(60px + env(safe-area-inset-bottom))}
 .topbar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:14px}
 .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:rgba(0,0,0,.25)}
@@ -66,11 +51,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 .panel h2{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--bulb);margin:0 0 16px;font-weight:700}
 .field{margin-bottom:16px}
 .field:last-child{margin-bottom:0}
-.field label,.flabel{display:block;font-size:13px;color:var(--dim);margin-bottom:7px;letter-spacing:.01em}
+.field label,.flabel{display:block;font-size:13px;color:var(--dim);margin-bottom:7px}
 .field input[type=text]{width:100%;background:rgba(0,0,0,.32);border:1px solid var(--line);border-radius:10px;padding:12px 13px;color:var(--paper);font:inherit}
 .field input[type=text]::placeholder{color:#6C5F91}
 .field input[type=text]:focus{border-color:var(--bulb);outline:none}
-.hint{font-size:12px;color:#8C7FB4;margin-top:7px;line-height:1.4}
+.hint{font-size:12px;color:#8C7FB4;margin-top:7px;line-height:1.45}
 .choices{display:flex;flex-wrap:wrap;gap:8px}
 .choice{background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-size:13px;color:var(--dim)}
 .choice[aria-pressed="true"]{border-color:var(--bulb);background:rgba(255,194,74,.14);color:var(--paper)}
@@ -92,13 +77,12 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
 .btn-primary{background:var(--bulb);color:#2A1B05;border-color:var(--bulb);font-weight:700;box-shadow:0 8px 30px rgba(255,194,74,.22)}
 .btn-block{width:100%}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap}
-.btn-row .btn{flex:1 1 150px}
+.btn-row .btn{flex:1 1 148px}
 .preview-col{position:sticky;top:18px}
 .preview-stage{background:repeating-conic-gradient(#241A48 0% 25%,#1C1338 0% 50%) 0 0/22px 22px;border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;justify-content:center}
 #previewCanvas{max-width:100%;max-height:56dvh;border-radius:4px;box-shadow:0 18px 44px rgba(0,0,0,.55)}
 .preview-cap{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:center;margin-top:14px}
 
-/* ---------- booth ---------- */
 #booth{position:fixed;inset:0;background:#000;display:none}
 #booth.on{display:block}
 #video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
@@ -116,15 +100,14 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
 .bulbframe.tick .bulb{background:var(--bulb);box-shadow:0 0 16px var(--bulb),0 0 30px var(--bulb-soft);animation:none}
 .booth-top{position:absolute;top:calc(22px + env(safe-area-inset-top));left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 26px;gap:12px}
 .counter{display:flex;gap:8px;align-items:center}
-.slot{width:34px;height:26px;border-radius:5px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.45);overflow:hidden;position:relative}
+.slot{width:34px;height:26px;border-radius:5px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.45);overflow:hidden}
 .slot img{width:100%;height:100%;object-fit:cover;display:block}
 .slot.active{border-color:var(--signal);box-shadow:0 0 12px rgba(255,75,92,.8)}
 .icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(0,0,0,.45);display:grid;place-items:center;font-size:17px;backdrop-filter:blur(8px)}
 .booth-tools{display:flex;gap:9px}
 .booth-bottom{position:absolute;left:0;right:0;bottom:calc(30px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:14px;padding:0 20px}
-.shutter{width:min(78vw,330px);border-radius:999px;border:0;background:var(--bulb);color:#2A1B05;font-family:var(--display);font-size:clamp(16px,4.6vw,22px);padding:19px 10px;letter-spacing:.02em;box-shadow:0 10px 40px rgba(255,194,74,.35)}
+.shutter{width:min(78vw,330px);border-radius:999px;border:0;background:var(--bulb);color:#2A1B05;font-family:var(--display);font-size:clamp(16px,4.6vw,22px);padding:19px 10px;box-shadow:0 10px 40px rgba(255,194,74,.35)}
 .shutter[disabled]{opacity:.4}
-.booth-note{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);text-align:center}
 #count{position:absolute;inset:0;display:none;place-items:center;pointer-events:none}
 #count.on{display:grid}
 #count b{font-family:var(--display);font-size:min(46vw,300px);line-height:1;color:var(--paper);text-shadow:0 0 60px rgba(255,194,74,.75),0 6px 40px rgba(0,0,0,.6);animation:pop .9s ease-out}
@@ -135,33 +118,64 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
 .permission{position:absolute;inset:0;display:grid;place-items:center;padding:30px;text-align:center;background:var(--ink)}
 .permission div{max-width:420px}
 
-/* ---------- review ---------- */
 #review{position:fixed;inset:0;background:var(--ink);display:none;overflow-y:auto}
 #review.on{display:block}
 .slot-bar{height:12px;border-radius:3px;background:linear-gradient(180deg,#0C0819,#241A48);border:1px solid var(--line);box-shadow:0 3px 14px rgba(0,0,0,.6);width:min(86vw,330px);margin:0 auto}
 .print{width:min(86vw,330px);margin:0 auto;overflow:hidden;height:0;transition:height 1.15s cubic-bezier(.2,.9,.25,1)}
 .print img{width:100%;display:block;box-shadow:0 26px 60px rgba(0,0,0,.6)}
 @media(prefers-reduced-motion:reduce){.print{transition:none}.sign .rail i,.bulbframe.live .bulb{animation:none}#count b{animation:none}}
-.review-inner{max-width:520px;margin:0 auto;padding:calc(26px + env(safe-area-inset-top)) 20px calc(30px + env(safe-area-inset-bottom))}
+.review-inner{max-width:1120px;min-height:100%;margin:0 auto;padding:calc(26px + env(safe-area-inset-top)) 28px calc(30px + env(safe-area-inset-bottom));display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,420px);grid-template-rows:1fr;column-gap:clamp(28px,5vw,72px);align-items:center}
+.review-inner > .slot-bar,.review-inner > .print{grid-column:1;grid-row:1 / span 5}
+.review-inner > .slot-bar{align-self:start;margin-top:0}
+.review-inner > .print{align-self:center;margin:0 auto;width:min(100%,420px)}
+.review-inner > .btn-row,.review-inner > .hint,.review-inner > .preview-cap,.review-inner > .singles,.review-inner > .autobar,.review-inner > .note{grid-column:2}
+.review-inner > .btn-row{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:22px}
+.review-inner > .btn-row .shutter{width:min(100%,330px);flex:none}
+.review-inner > .btn-row:first-of-type{margin-top:0 !important}
+.review-inner > .btn-row:nth-of-type(2){display:none}
+.review-inner > .hint{display:none}
+.review-inner > .preview-cap{margin:16px 0 0 !important}
+.review-inner > .singles{margin:10px 0 0}
+.review-inner > .autobar{margin-top:18px}
+.review-inner > .note{margin:9px 0 0 !important}
+@media(max-width:760px){
+  .review-inner{max-width:520px;display:block;padding-left:20px;padding-right:20px}
+  .review-inner > .slot-bar,.review-inner > .print{display:block}
+  .review-inner > .slot-bar{margin:0 auto}
+  .review-inner > .print{margin:0 auto}
+  .review-inner > .btn-row{display:flex;flex-direction:column;align-items:center;margin-top:24px !important}
+  .review-inner > .btn-row + .btn-row{margin-top:10px !important}
+  .review-inner > .hint,.review-inner > .preview-cap,.review-inner > .singles,.review-inner > .autobar,.review-inner > .note{margin-top:22px !important}
+}
 .singles{display:flex;gap:9px;justify-content:center;margin-top:22px}
 .singles button{padding:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:none;width:74px;height:56px}
 .singles img{width:100%;height:100%;object-fit:cover;display:block}
 .autobar{height:3px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:22px}
 .autobar i{display:block;height:100%;background:var(--bulb);width:100%;transform-origin:left}
+.note{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);text-align:center}
 
-/* ---------- gallery ---------- */
 #gallery{position:fixed;inset:0;background:var(--ink);display:none;overflow-y:auto;z-index:5}
 #gallery.on{display:block}
 .gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px;margin-top:20px}
 .gal-grid button{padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:rgba(0,0,0,.3)}
 .gal-grid img{width:100%;display:block}
 .empty{text-align:center;color:var(--dim);padding:56px 20px;border:1px dashed var(--line);border-radius:16px;margin-top:20px}
-
-/* ---------- toast ---------- */
 #toast{position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom));transform:translate(-50%,26px);background:var(--paper);color:#20153F;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:500;opacity:0;transition:.24s;pointer-events:none;z-index:99;max-width:88vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 .sect-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:6px}
 .sect-head h1{font-family:var(--display);font-size:clamp(20px,5.4vw,26px);margin:0}
+
+/* ── print sheet ── */
+#printRoot{display:none}
+@media print{
+  html,body{background:#fff !important;margin:0;padding:0}
+  body > *:not(#printRoot){display:none !important}
+  #printRoot{display:block}
+  .sheet{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;gap:0;page-break-after:always;break-after:page;background:#fff;overflow:hidden}
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+  .sheet img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .sheet.two img{width:50%;height:100%;object-fit:contain}
+}
 </style>
 </head>
 <body>
@@ -213,8 +227,8 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
           <span class="flabel" data-i="l_layout">Layout</span>
           <div class="choices" id="cLayout" role="group">
             <button type="button" class="choice" data-v="strip" aria-pressed="true" data-i="lay_strip">Vertical strip</button>
-            <button type="button" class="choice" data-v="row" aria-pressed="false" data-i="lay_row">Horizontal strip</button>
-            <button type="button" class="choice" data-v="grid" aria-pressed="false" data-i="lay_grid">Square grid</button>
+            <button type="button" class="choice" data-v="row" data-i="lay_row">Horizontal strip</button>
+            <button type="button" class="choice" data-v="grid" data-i="lay_grid">Square grid</button>
           </div>
         </div>
         <div class="field">
@@ -229,9 +243,9 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
           <span class="flabel" data-i="l_font">Lettering</span>
           <div class="choices" id="cFont" role="group">
             <button type="button" class="choice" data-v="display" aria-pressed="true" data-i="f_marquee">Marquee</button>
-            <button type="button" class="choice" data-v="serif" aria-pressed="false" data-i="f_serif">Elegant</button>
-            <button type="button" class="choice" data-v="body" aria-pressed="false" data-i="f_clean">Clean</button>
-            <button type="button" class="choice" data-v="mono" aria-pressed="false" data-i="f_ticket">Ticket</button>
+            <button type="button" class="choice" data-v="serif" data-i="f_serif">Elegant</button>
+            <button type="button" class="choice" data-v="body" data-i="f_clean">Clean</button>
+            <button type="button" class="choice" data-v="mono" data-i="f_ticket">Ticket</button>
           </div>
         </div>
         <div class="row2">
@@ -243,6 +257,31 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
             <label for="fRadius" data-i="l_radius">Photo corners</label>
             <input type="range" id="fRadius" min="0" max="60" value="10">
           </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 data-i="h_border">Border design</h2>
+        <div class="field">
+          <span class="flabel" data-i="l_bstyle">Pattern</span>
+          <div class="choices" id="cBorder" role="group">
+            <button type="button" class="choice" data-v="none" aria-pressed="true" data-i="bd_none">Plain paper</button>
+            <button type="button" class="choice" data-v="line" data-i="bd_line">Double rule</button>
+            <button type="button" class="choice" data-v="dash" data-i="bd_dash">Dashed</button>
+            <button type="button" class="choice" data-v="bulbs" data-i="bd_bulbs">Marquee bulbs</button>
+            <button type="button" class="choice" data-v="film" data-i="bd_film">Film sprockets</button>
+            <button type="button" class="choice" data-v="scallop" data-i="bd_scallop">Scalloped</button>
+            <button type="button" class="choice" data-v="deco" data-i="bd_deco">Deco corners</button>
+            <button type="button" class="choice" data-v="confetti" data-i="bd_confetti">Confetti</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="flabel" data-i="l_bcolor">Pattern colour</span>
+          <div class="swatches" id="cBcol"></div>
+        </div>
+        <div class="toggle">
+          <span data-i="t_keyline">Thin outline around each photo</span>
+          <button type="button" class="sw-toggle" id="tKeyline" aria-pressed="false" aria-label="Thin outline around each photo"></button>
         </div>
       </section>
 
@@ -306,7 +345,7 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
   <div id="count" aria-live="assertive"><b>3</b></div>
   <div id="flash" aria-hidden="true"></div>
   <div class="booth-bottom">
-    <p class="booth-note" id="boothNote" data-i="note_ready">Three photos, one strip</p>
+    <p class="note" id="boothNote" data-i="note_ready">Three photos, one strip</p>
     <button type="button" class="shutter" id="btnShoot" data-i="b_shoot">TAP TO START</button>
   </div>
   <div class="permission hide" id="perm"><div>
@@ -322,17 +361,14 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
     <div class="slot-bar" aria-hidden="true"></div>
     <div class="print" id="print"><img id="stripImg" alt="Photo strip"></div>
     <div class="btn-row" style="margin-top:24px">
-      <button type="button" class="btn btn-primary" id="btnShare" data-i="b_share">Share strip</button>
-      <button type="button" class="btn" id="btnDl" data-i="b_dl">Download</button>
+      <button type="button" class="shutter" id="btnShare">Share</button>
+      <button type="button" class="shutter" id="btnRetake" data-i="b_retake">Take it again</button>
+      <button type="button" class="shutter" id="btnDone" data-i="b_done">Done</button>
     </div>
-    <div class="btn-row" style="margin-top:10px">
-      <button type="button" class="btn" id="btnRetake" data-i="b_retake">Take it again</button>
-      <button type="button" class="btn" id="btnDone" data-i="b_done">Done</button>
-    </div>
-    <p class="preview-cap" style="margin-top:26px" data-i="cap_singles">Single photos</p>
+    <p class="preview-cap" style="margin-top:22px" data-i="cap_singles">Single photos</p>
     <div class="singles" id="singles"></div>
     <div class="autobar" aria-hidden="true"><i id="autoBar"></i></div>
-    <p class="booth-note" style="margin-top:9px;color:var(--dim)" data-i="note_auto">Back to the camera in a moment</p>
+    <p class="note" style="margin-top:9px;color:var(--dim)" data-i="note_auto">Back to the camera in a moment</p>
   </div>
 </section>
 
@@ -343,15 +379,17 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
       <h1 data-i="h_gal">Tonight</h1>
       <button type="button" class="btn" id="btnGalClose" data-i="b_close">Close</button>
     </div>
-    <p class="hint" data-i="hint_gal">Everything shot on this phone since the booth opened. Reloading the page clears it, so share the keepers as you go.</p>
+    <p class="hint" data-i="hint_gal">Everything shot on this phone since the booth opened. Reloading the page clears it, so save or send the keepers as you go.</p>
     <div class="btn-row" style="margin-top:14px">
       <button type="button" class="btn btn-primary" id="btnShareAll" data-i="b_shareall">Share every strip</button>
+      <button type="button" class="btn" id="btnPrintAll" data-i="b_printall">Print every strip</button>
     </div>
     <div class="gal-grid" id="galGrid"></div>
     <div class="empty hide" id="galEmpty" data-i="gal_empty">No strips yet. The first one lands here.</div>
   </div>
 </section>
 
+<div id="printRoot" aria-hidden="true"></div>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -367,25 +405,31 @@ const STR = {
     h_frame:"The frame", l_layout:"Layout", lay_strip:"Vertical strip", lay_row:"Horizontal strip",
     lay_grid:"Square grid", l_paper:"Paper colour", l_inkcol:"Text colour", l_font:"Lettering",
     f_marquee:"Marquee", f_serif:"Elegant", f_clean:"Clean", f_ticket:"Ticket",
-    l_margin:"Border width", l_radius:"Photo corners", h_booth:"During the event",
-    l_count:"Seconds before each photo — ", t_mirror:"Mirror the front camera",
-    t_sound:"Countdown beeps", t_back:"Start on the back camera",
-    h_keep:"Keep this setup", b_link:"Copy booth link", b_save:"Download booth file",
-    b_load:"Open booth file",
+    l_margin:"Border width", l_radius:"Photo corners",
+    h_border:"Border design", l_bstyle:"Pattern", bd_none:"Plain paper", bd_line:"Double rule",
+    bd_dash:"Dashed", bd_bulbs:"Marquee bulbs", bd_film:"Film sprockets", bd_scallop:"Scalloped",
+    bd_deco:"Deco corners", bd_confetti:"Confetti", l_bcolor:"Pattern colour",
+    t_keyline:"Thin outline around each photo",
+    h_booth:"During the event", l_count:"Seconds before each photo — ",
+    t_mirror:"Mirror the front camera", t_sound:"Countdown beeps", t_back:"Start on the back camera",
+    h_keep:"Keep this setup", b_link:"Copy booth link", b_save:"Download booth file", b_load:"Open booth file",
     hint_keep:"The booth link carries every setting except the logo, so you can send it to a second phone or iPad. The booth file carries the logo too.",
     cap_prev:"Preview", b_start:"Open the booth",
     hint_start:"Guests only see the camera. Hold the corner button for two seconds to come back here.",
     note_ready:"Three photos, one strip", b_shoot:"TAP TO START", b_retry:"Try the camera again",
-    b_back:"Back to settings", b_share:"Share strip", b_dl:"Download", b_retake:"Take it again",
-    b_done:"Done", cap_singles:"Single photos", note_auto:"Back to the camera in a moment",
+    b_back:"Back to settings",
+    b_share:"Share", b_retake:"Take it again", b_done:"Done",
+    cap_singles:"Single photos", note_auto:"Back to the camera in a moment",
     h_gal:"Tonight", b_close:"Close",
-    hint_gal:"Everything shot on this phone since the booth opened. Reloading the page clears it, so share the keepers as you go.",
-    b_shareall:"Share every strip", gal_empty:"No strips yet. The first one lands here.",
-    t_smile:"Hold it…", t_shot:"Photo %1 of 3", t_making:"Printing your strip",
+    hint_gal:"Everything shot on this phone since the booth opened. Reloading the page clears it, so save or send the keepers as you go.",
+    b_shareall:"Share every strip", b_printall:"Print every strip",
+    gal_empty:"No strips yet. The first one lands here.",
+    t_shot:"Photo %1 of 3", t_making:"Printing your strip",
     t_copied:"Booth link copied", t_copyfail:"Copy didn't work — the link is in the address bar",
-    t_saved:"Downloaded", t_shared:"Sent", t_nofiles:"Sharing images isn't available in this browser — use Download instead",
+    t_saved:"Downloaded", t_shared:"Sent", t_sentprint:"Sent to the printer",
+    t_nofiles:"This browser can't hand images to other apps — the files downloaded instead",
     t_loaded:"Booth setup loaded", t_badfile:"That file isn't a booth setup",
-    t_nogal:"Nothing to share yet", t_hold:"Hold for two seconds to open settings",
+    t_nogal:"Nothing to print or share yet", t_hold:"Hold for two seconds to open settings",
     p_denied:"The camera is blocked. In Safari, tap “AA” in the address bar → Website Settings → Camera → Allow, then reload.",
     p_insecure:"The camera needs a secure connection. Open this page over https:// and it will work.",
     p_none:"No camera found on this device.",
@@ -399,25 +443,33 @@ const STR = {
     h_frame:"El marco", l_layout:"Formato", lay_strip:"Tirilla vertical", lay_row:"Tirilla horizontal",
     lay_grid:"Cuadrícula", l_paper:"Color del papel", l_inkcol:"Color del texto", l_font:"Tipografía",
     f_marquee:"Marquesina", f_serif:"Elegante", f_clean:"Limpia", f_ticket:"Ticket",
-    l_margin:"Ancho del borde", l_radius:"Esquinas de las fotos", h_booth:"Durante el evento",
-    l_count:"Segundos antes de cada foto — ", t_mirror:"Reflejar la cámara frontal",
-    t_sound:"Pitidos de la cuenta regresiva", t_back:"Empezar con la cámara trasera",
+    l_margin:"Ancho del borde", l_radius:"Esquinas de las fotos",
+    h_border:"Diseño del borde", l_bstyle:"Patrón", bd_none:"Papel liso", bd_line:"Doble línea",
+    bd_dash:"Guiones", bd_bulbs:"Bombillas", bd_film:"Perforación de película", bd_scallop:"Festoneado",
+    bd_deco:"Esquinas déco", bd_confetti:"Confeti", l_bcolor:"Color del patrón",
+    t_keyline:"Línea fina alrededor de cada foto",
+    h_booth:"Durante el evento", l_count:"Segundos antes de cada foto — ",
+    t_mirror:"Reflejar la cámara frontal", t_sound:"Pitidos de la cuenta regresiva",
+    t_back:"Empezar con la cámara trasera",
     h_keep:"Guardar esta configuración", b_link:"Copiar enlace del fotomatón",
     b_save:"Descargar archivo", b_load:"Abrir archivo",
     hint_keep:"El enlace lleva todos los ajustes menos el logo, así lo puedes enviar a otro teléfono o iPad. El archivo sí lleva el logo.",
     cap_prev:"Vista previa", b_start:"Abrir el fotomatón",
     hint_start:"Los invitados solo ven la cámara. Mantén pulsado el botón de la esquina dos segundos para volver aquí.",
     note_ready:"Tres fotos, una tirilla", b_shoot:"TOCA PARA EMPEZAR", b_retry:"Reintentar la cámara",
-    b_back:"Volver a los ajustes", b_share:"Compartir tirilla", b_dl:"Descargar", b_retake:"Repetir",
-    b_done:"Listo", cap_singles:"Fotos sueltas", note_auto:"Volvemos a la cámara en un momento",
+    b_back:"Volver a los ajustes", b_saveall:"Guardar en Fotos", b_print:"Imprimir",
+    b_share:"Compartir", b_retake:"Repetir", b_done:"Listo",
+    cap_singles:"Fotos sueltas", note_auto:"Volvemos a la cámara en un momento",
     h_gal:"Esta noche", b_close:"Cerrar",
-    hint_gal:"Todo lo que se tomó en este teléfono desde que abrió el fotomatón. Recargar la página lo borra, así que comparte sobre la marcha.",
-    b_shareall:"Compartir todas", gal_empty:"Aún no hay tirillas. La primera aparece aquí.",
-    t_smile:"Quietos…", t_shot:"Foto %1 de 3", t_making:"Imprimiendo la tirilla",
+    hint_gal:"Todo lo que se tomó en este teléfono desde que abrió el fotomatón. Recargar la página lo borra, así que guarda o envía sobre la marcha.",
+    b_shareall:"Compartir todas", b_printall:"Imprimir todas",
+    gal_empty:"Aún no hay tirillas. La primera aparece aquí.",
+    t_shot:"Foto %1 de 3", t_making:"Imprimiendo la tirilla",
     t_copied:"Enlace copiado", t_copyfail:"No se pudo copiar — el enlace está en la barra de direcciones",
-    t_saved:"Descargado", t_shared:"Enviado", t_nofiles:"Este navegador no comparte imágenes — usa Descargar",
+    t_saved:"Descargado", t_shared:"Enviado", t_sentprint:"Enviado a la impresora",
+    t_nofiles:"Este navegador no entrega imágenes a otras apps — se descargaron los archivos",
     t_loaded:"Configuración cargada", t_badfile:"Ese archivo no es una configuración del fotomatón",
-    t_nogal:"Todavía no hay nada que compartir", t_hold:"Mantén pulsado dos segundos para abrir los ajustes",
+    t_nogal:"Todavía no hay nada que imprimir o compartir", t_hold:"Mantén pulsado dos segundos para abrir los ajustes",
     p_denied:"La cámara está bloqueada. En Safari toca «AA» en la barra de direcciones → Ajustes del sitio web → Cámara → Permitir, y recarga.",
     p_insecure:"La cámara necesita una conexión segura. Abre esta página con https:// y funcionará.",
     p_none:"No se encontró ninguna cámara en este dispositivo.",
@@ -430,12 +482,12 @@ const t = (k,a) => { let s = (STR[lang]&&STR[lang][k]) || STR.en[k] || k; if(a!=
 /* ═══════════ state ═══════════ */
 const DEF = {
   title:"", sub:"", layout:"strip", paper:"#FBF7EE", ink:"#241A1A", font:"display",
-  margin:42, radius:10, count:3, mirror:true, sound:true, back:false
+  margin:42, radius:10, count:3, mirror:true, sound:true, back:false,
+  border:"none", bcolor:"#241A1A", keyline:false,
+  printSize:"photo4x6", printCopies:1, printTwoUp:false, autoPrint:false
 };
 let S = Object.assign({}, DEF);
-let logoImg = null;          // HTMLImageElement or null
-let session = [];            // {strip, photos[3], ts}
-let current = null;
+let logoImg = null, session = [], current = null;
 
 const PAPERS = ["#FBF7EE","#FFFFFF","#111014","#1B2A4A","#F3D9C6","#D9E4DC","#F2C9D4","#E8C86B"];
 const INKS   = ["#241A1A","#FFFFFF","#B23A48","#1B2A4A","#2F6B4F","#8A6A2F","#6C4A8C","#000000"];
@@ -450,23 +502,21 @@ const LAY = {
   row:  {cols:3, rows:1, aspect:3/4, baseW:1560},
   grid: {cols:2, rows:2, aspect:4/3, baseW:1240}
 };
+const PAGES = {strip2x6:"2in 6in", photo4x6:"4in 6in", photo5x7:"5in 7in", a6:"105mm 148mm", letter:"8.5in 11in", auto:"auto"};
 
 const $  = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-
-/* ═══════════ toast ═══════════ */
 let toastT;
 function toast(msg){
   const el = $("#toast"); el.textContent = msg; el.classList.add("on");
-  clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove("on"), 2600);
+  clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove("on"), 2800);
 }
-
-/* ═══════════ language ═══════════ */
 function applyLang(){
   document.documentElement.lang = lang;
   $$("[data-i]").forEach(el=>{
     const k = el.dataset.i;
-    if(k==="l_count"){ el.innerHTML = t(k) + "<b id='countVal'>" + S.count + "</b>"; }
+    if(k==="l_count") el.innerHTML = t(k) + "<b id='countVal'>" + S.count + "</b>";
+    else if(k==="l_copies") el.innerHTML = t(k) + "<b id='copiesVal'>" + S.printCopies + "</b>";
     else el.textContent = t(k);
   });
   $$(".lang button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.lang===lang)));
@@ -476,8 +526,8 @@ function applyLang(){
 /* ═══════════ canvas helpers ═══════════ */
 function rr(c,x,y,w,h,r){
   r = Math.max(0, Math.min(r, w/2, h/2));
-  c.beginPath();
-  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.beginPath(); c.moveTo(x+r,y);
+  c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
   c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
 }
 function cover(c,src,x,y,w,h){
@@ -495,19 +545,134 @@ function fitText(c,text,maxW,start,font,weight){
 }
 function tracked(c,text,cx,y,track){
   if(!track){ c.fillText(text,cx,y); return; }
-  const size = parseFloat(c.font);
-  const sp = size*track, chars=[...text];
+  const size = parseFloat(c.font), sp = size*track, chars=[...text];
   let w = 0; chars.forEach(ch=>w += c.measureText(ch).width + sp); w -= sp;
-  let x = cx - w/2;
-  const prev = c.textAlign; c.textAlign="left";
+  let x = cx - w/2; const prev = c.textAlign; c.textAlign="left";
   chars.forEach(ch=>{ c.fillText(ch,x,y); x += c.measureText(ch).width + sp; });
   c.textAlign = prev;
+}
+function rng(seed){
+  return function(){ seed|=0; seed=seed+0x6D2B79F5|0;
+    let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t;
+    return ((t^t>>>14)>>>0)/4294967296; };
+}
+
+/* ═══════════ border patterns ═══════════ */
+function drawBorder(c, m, s){
+  if(s.border==="none") return;
+  const W=m.W, H=m.H, pad=m.pad, col=s.bcolor;
+  const inset = pad*0.34, x = inset, y = inset, w = W-inset*2, h = H-inset*2;
+  const lw = Math.max(2, pad*0.075), R = Math.min(pad*0.55, 26);
+  c.save(); c.strokeStyle=col; c.fillStyle=col; c.lineWidth=lw; c.lineJoin="round";
+
+  if(s.border==="line"){
+    rr(c,x,y,w,h,R); c.stroke();
+    c.lineWidth = Math.max(1, lw*0.42);
+    const o = pad*0.24;
+    rr(c,x+o,y+o,w-o*2,h-o*2,Math.max(0,R-o*0.8)); c.stroke();
+  }
+  else if(s.border==="dash"){
+    c.lineCap="round"; c.setLineDash([pad*0.32, pad*0.24]);
+    rr(c,x,y,w,h,R); c.stroke(); c.setLineDash([]);
+  }
+  else if(s.border==="bulbs"){
+    c.lineWidth = Math.max(1, lw*0.34); rr(c,x,y,w,h,R); c.stroke();
+    const r = Math.max(2.5, pad*0.135), step = pad*0.92;
+    const along = (x0,y0,x1,y1)=>{
+      const d = Math.hypot(x1-x0,y1-y0), n = Math.max(2, Math.round(d/step));
+      for(let i=0;i<=n;i++){
+        const px = x0+(x1-x0)*i/n, py = y0+(y1-y0)*i/n;
+        c.globalAlpha=.22; c.beginPath(); c.arc(px,py,r*2,0,6.2832); c.fill();
+        c.globalAlpha=1;  c.beginPath(); c.arc(px,py,r,0,6.2832); c.fill();
+      }
+    };
+    along(x+R,y,x+w-R,y); along(x+R,y+h,x+w-R,y+h);
+    along(x,y+R,x,y+h-R); along(x+w,y+R,x+w,y+h-R);
+  }
+  else if(s.border==="film"){
+    const vertical = H >= W;
+    const hw = vertical ? pad*0.30 : pad*0.46, hh = vertical ? pad*0.46 : pad*0.30;
+    const sp = pad*0.52, rad = Math.min(hw,hh)*0.34;
+    if(vertical){
+      const n = Math.max(3, Math.floor((h - sp) / (hh + sp)));
+      const total = n*hh + (n-1)*sp, y0 = y + (h-total)/2;
+      for(let i=0;i<n;i++){
+        const yy = y0 + i*(hh+sp);
+        rr(c, x, yy, hw, hh, rad); c.fill();
+        rr(c, x+w-hw, yy, hw, hh, rad); c.fill();
+      }
+    } else {
+      const n = Math.max(3, Math.floor((w - sp) / (hw + sp)));
+      const total = n*hw + (n-1)*sp, x0 = x + (w-total)/2;
+      for(let i=0;i<n;i++){
+        const xx = x0 + i*(hw+sp);
+        rr(c, xx, y, hw, hh, rad); c.fill();
+        rr(c, xx, y+h-hh, hw, hh, rad); c.fill();
+      }
+    }
+  }
+  else if(s.border==="scallop"){
+    c.lineWidth = Math.max(1.5, lw*0.6);
+    const target = pad*0.46;
+    const edge = (x0,y0,x1,y1,dir)=>{
+      const len = Math.hypot(x1-x0,y1-y0);
+      const n = Math.max(2, Math.round(len/(target*2)));
+      const r = len/(n*2), ux = (x1-x0)/len, uy = (y1-y0)/len;
+      for(let i=0;i<n;i++){
+        const cx = x0 + ux*(r + i*2*r), cy = y0 + uy*(r + i*2*r);
+        const a0 = Math.atan2(uy,ux);
+        c.beginPath(); c.arc(cx,cy,r, a0+Math.PI, a0, dir>0); c.stroke();
+      }
+    };
+    edge(x, y, x+w, y, 1); edge(x+w, y+h, x, y+h, 1);
+    edge(x, y+h, x, y, 1); edge(x+w, y, x+w, y+h, 1);
+  }
+  else if(s.border==="deco"){
+    c.lineWidth = Math.max(1, lw*0.45);
+    rr(c,x,y,w,h,0); c.stroke();
+    const L = Math.min(w,h)*0.13, o = pad*0.26;
+    c.lineWidth = lw;
+    const bracket = (cx,cy,sx,sy)=>{
+      c.beginPath();
+      c.moveTo(cx + sx*L, cy); c.lineTo(cx, cy); c.lineTo(cx, cy + sy*L);
+      c.stroke();
+      c.beginPath();
+      c.moveTo(cx + sx*o*1.4, cy + sy*o*0.2);
+      c.lineTo(cx + sx*o*0.2, cy + sy*o*1.4);
+      c.stroke();
+    };
+    bracket(x+o, y+o, 1, 1); bracket(x+w-o, y+o, -1, 1);
+    bracket(x+o, y+h-o, 1, -1); bracket(x+w-o, y+h-o, -1, -1);
+  }
+  else if(s.border==="confetti"){
+    const rand = rng(20260727);
+    const band = pad*0.62, n = Math.round((w+h)/ (pad*0.75));
+    for(let i=0;i<n;i++){
+      const edge = Math.floor(rand()*4), pos = rand();
+      const off = band*0.15 + rand()*band*0.7;
+      let px, py;
+      if(edge===0){ px = x + pos*w; py = y + off - band*0.1; }
+      else if(edge===1){ px = x + pos*w; py = y + h - off + band*0.1; }
+      else if(edge===2){ px = x + off - band*0.1; py = y + pos*h; }
+      else { px = x + w - off + band*0.1; py = y + pos*h; }
+      const sz = pad*(0.09 + rand()*0.10), rot = rand()*6.2832, kind = Math.floor(rand()*3);
+      c.save(); c.translate(px,py); c.rotate(rot);
+      c.globalAlpha = 0.55 + rand()*0.45;
+      if(kind===0){ c.beginPath(); c.arc(0,0,sz*0.55,0,6.2832); c.fill(); }
+      else if(kind===1){ c.fillRect(-sz*0.5, -sz*0.22, sz, sz*0.44); }
+      else { c.beginPath(); c.moveTo(0,-sz*0.6); c.lineTo(sz*0.55,sz*0.45); c.lineTo(-sz*0.55,sz*0.45); c.closePath(); c.fill(); }
+      c.restore();
+    }
+    c.globalAlpha = 1;
+  }
+  c.restore();
 }
 
 /* ═══════════ the frame ═══════════ */
 function metrics(s){
   const L = LAY[s.layout], W = L.baseW;
-  const pad = s.margin/1000*W;
+  let pad = s.margin/1000*W;
+  if(s.border !== "none") pad = Math.max(pad, W*0.048);
   const gap = pad*0.62;
   const cellW = (W - pad*2 - gap*(L.cols-1)) / L.cols;
   const cellH = cellW / L.aspect;
@@ -526,6 +691,7 @@ function buildFrame(photos, s){
   cv.width = Math.round(m.W); cv.height = Math.round(m.H);
   const c = cv.getContext("2d");
   c.fillStyle = s.paper; c.fillRect(0,0,cv.width,cv.height);
+  drawBorder(c, m, s);
 
   let y = m.pad;
   const title = s.title.trim(), sub = s.sub.trim();
@@ -540,6 +706,7 @@ function buildFrame(photos, s){
   }
 
   const r = s.radius/1000*m.W;
+  const kw = Math.max(1.4, m.W*0.0026);
   let idx = 0;
   for(let row=0; row<m.L.rows; row++){
     for(let col=0; col<m.L.cols; col++){
@@ -547,8 +714,8 @@ function buildFrame(photos, s){
       const yy = y + row*(m.cellH+m.gap);
       if(s.layout==="grid" && idx===3){
         c.save(); rr(c,x,yy,m.cellW,m.cellH,r); c.clip();
-        c.globalAlpha = .09; c.fillStyle = s.ink; c.fillRect(x,yy,m.cellW,m.cellH); c.globalAlpha=1;
-        c.fillStyle = s.ink; c.textAlign="center"; c.textBaseline="middle";
+        c.globalAlpha=.09; c.fillStyle=s.ink; c.fillRect(x,yy,m.cellW,m.cellH); c.globalAlpha=1;
+        c.fillStyle=s.ink; c.textAlign="center"; c.textBaseline="middle";
         if(title){
           const size = fitText(c, line(title), m.cellW*0.82, m.cellW*0.17, f.css, f.weight);
           c.font = f.weight+" "+size+"px "+f.css;
@@ -559,15 +726,19 @@ function buildFrame(photos, s){
         const p = photos[idx];
         c.save(); rr(c,x,yy,m.cellW,m.cellH,r); c.clip();
         if(p) cover(c,p,x,yy,m.cellW,m.cellH);
-        else {
+        else{
           const g = c.createLinearGradient(x,yy,x+m.cellW,yy+m.cellH);
           g.addColorStop(0,"rgba(0,0,0,.10)"); g.addColorStop(1,"rgba(0,0,0,.22)");
           c.fillStyle=g; c.fillRect(x,yy,m.cellW,m.cellH);
-          c.fillStyle = s.ink; c.globalAlpha=.32; c.textAlign="center"; c.textBaseline="middle";
+          c.fillStyle=s.ink; c.globalAlpha=.32; c.textAlign="center"; c.textBaseline="middle";
           c.font = "700 "+Math.round(m.cellW*0.13)+"px 'Space Mono', monospace";
           c.fillText(String(idx+1), x+m.cellW/2, yy+m.cellH/2); c.globalAlpha=1;
         }
         c.restore();
+      }
+      if(s.keyline){
+        rr(c,x,yy,m.cellW,m.cellH,r);
+        c.strokeStyle = s.bcolor; c.lineWidth = kw; c.stroke();
       }
       idx++;
     }
@@ -579,15 +750,15 @@ function buildFrame(photos, s){
     let cy = y;
     if(logoImg){
       const maxH = m.botH * (sub? 0.55 : 0.86);
-      const ratio = logoImg.naturalWidth / logoImg.naturalHeight || 1;
-      let lh = maxH, lw = lh*ratio;
+      const ratio = (logoImg.naturalWidth/logoImg.naturalHeight) || 1;
+      let lh = maxH, lw2 = lh*ratio;
       const maxW = m.W - m.pad*2;
-      if(lw > maxW){ lw = maxW; lh = lw/ratio; }
-      c.drawImage(logoImg, (m.W-lw)/2, cy, lw, lh);
+      if(lw2 > maxW){ lw2 = maxW; lh = lw2/ratio; }
+      c.drawImage(logoImg, (m.W-lw2)/2, cy, lw2, lh);
       cy += lh + m.botH*0.14;
     }
     if(sub){
-      c.fillStyle = s.ink; c.textAlign="center"; c.textBaseline="middle";
+      c.fillStyle=s.ink; c.textAlign="center"; c.textBaseline="middle";
       const avail = logoImg ? (y + m.botH - cy) : m.botH;
       const size = fitText(c, line(sub), m.W - m.pad*2 - (f.track? m.W*0.08:0), Math.min(avail*0.7, m.cellW*0.09), f.css, f.weight);
       c.font = f.weight+" "+size+"px "+f.css;
@@ -632,14 +803,14 @@ function swatches(host, list, key){
   host.innerHTML = "";
   list.forEach(hex=>{
     const b = document.createElement("button");
-    b.type="button"; b.className="sw"; b.style.background = hex;
+    b.type="button"; b.className="sw"; b.style.background=hex;
     b.setAttribute("aria-pressed", String(S[key]===hex)); b.setAttribute("aria-label", hex);
-    b.onclick = ()=>{ S[key]=hex; custom.value=hex; swatches(host,list,key); drawPreview(); };
+    b.onclick = ()=>{ S[key]=hex; swatches(host,list,key); drawPreview(); };
     host.appendChild(b);
   });
   const custom = document.createElement("input");
   custom.type="color"; custom.value = S[key]; custom.setAttribute("aria-label","Custom colour");
-  custom.oninput = ()=>{ S[key]=custom.value; host.querySelectorAll(".sw").forEach(s=>s.setAttribute("aria-pressed","false")); drawPreview(); };
+  custom.oninput = ()=>{ S[key]=custom.value; host.querySelectorAll(".sw").forEach(x=>x.setAttribute("aria-pressed","false")); drawPreview(); };
   host.appendChild(custom);
 }
 function group(sel, key, after){
@@ -654,71 +825,64 @@ function group(sel, key, after){
 function toggleBtn(sel, key, after){
   const b = $(sel);
   b.setAttribute("aria-pressed", String(!!S[key]));
-  b.onclick = ()=>{ S[key] = !S[key]; b.setAttribute("aria-pressed", String(S[key])); if(after) after(); };
+  b.onclick = ()=>{ S[key] = !S[key]; b.setAttribute("aria-pressed", String(S[key])); if(after) after(); drawPreview(); };
 }
 function syncControls(){
   $("#fTitle").value = S.title; $("#fSub").value = S.sub;
-  $("#fMargin").value = S.margin; $("#fRadius").value = S.radius; $("#fCount").value = S.count;
+  $("#fMargin").value = S.margin; $("#fRadius").value = S.radius;
+  $("#fCount").value = S.count;
   const cv = $("#countVal"); if(cv) cv.textContent = S.count;
-  $$("#cLayout .choice").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.v===S.layout)));
-  $$("#cFont .choice").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.v===S.font)));
-  ["#tMirror|mirror","#tSound|sound","#tBack|back"].forEach(p=>{
-    const [sel,k]=p.split("|"); $(sel).setAttribute("aria-pressed", String(!!S[k]));
+  const mark = (sel,val)=> $$(sel+" .choice").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.v===val)));
+  mark("#cLayout", S.layout); mark("#cFont", S.font); mark("#cBorder", S.border);
+  [["#tMirror","mirror"],["#tSound","sound"],["#tBack","back"],["#tKeyline","keyline"]].forEach(([sel,k])=>{
+    $(sel).setAttribute("aria-pressed", String(!!S[k]));
   });
   swatches($("#cPaper"), PAPERS, "paper");
   swatches($("#cInk"), INKS, "ink");
+  swatches($("#cBcol"), INKS, "bcolor");
   drawPreview();
 }
 
-$("#fTitle").oninput = e => { S.title = e.target.value; drawPreview(); };
-$("#fSub").oninput   = e => { S.sub = e.target.value; drawPreview(); };
-$("#fMargin").oninput= e => { S.margin = +e.target.value; drawPreview(); };
-$("#fRadius").oninput= e => { S.radius = +e.target.value; drawPreview(); };
-$("#fCount").oninput = e => { S.count = +e.target.value; const b=$("#countVal"); if(b) b.textContent = S.count; };
-group("#cLayout","layout"); group("#cFont","font");
+$("#fTitle").oninput  = e => { S.title = e.target.value; drawPreview(); };
+$("#fSub").oninput    = e => { S.sub = e.target.value; drawPreview(); };
+$("#fMargin").oninput = e => { S.margin = +e.target.value; drawPreview(); };
+$("#fRadius").oninput = e => { S.radius = +e.target.value; drawPreview(); };
+$("#fCount").oninput  = e => { S.count = +e.target.value; const b=$("#countVal"); if(b) b.textContent=S.count; };
+group("#cLayout","layout"); group("#cFont","font"); group("#cBorder","border");
 toggleBtn("#tMirror","mirror",()=>applyMirror());
-toggleBtn("#tSound","sound");
-toggleBtn("#tBack","back");
+toggleBtn("#tSound","sound"); toggleBtn("#tBack","back"); toggleBtn("#tKeyline","keyline");
 $$(".lang button").forEach(b=> b.onclick = ()=>{ lang = b.dataset.lang; applyLang(); });
 
 $("#btnLogo").onclick = ()=> $("#fLogo").click();
 $("#fLogo").onchange = e => {
   const file = e.target.files && e.target.files[0]; if(!file) return;
   const fr = new FileReader();
-  fr.onload = () => {
-    const img = new Image();
+  fr.onload = ()=>{ const img = new Image();
     img.onload = ()=>{ logoImg = img; $("#btnLogoClear").classList.remove("hide"); drawPreview(); };
-    img.src = fr.result;
-  };
+    img.src = fr.result; };
   fr.readAsDataURL(file);
 };
 $("#btnLogoClear").onclick = ()=>{ logoImg=null; $("#fLogo").value=""; $("#btnLogoClear").classList.add("hide"); drawPreview(); };
 
 /* ═══════════ config in / out ═══════════ */
-function encodeCfg(){
-  const c = Object.assign({}, S, {lang:lang});
-  return btoa(encodeURIComponent(JSON.stringify(c))).replace(/=+$/,"");
-}
+function encodeCfg(){ return btoa(encodeURIComponent(JSON.stringify(Object.assign({},S,{lang})))).replace(/=+$/,""); }
 function decodeCfg(str){
   const o = JSON.parse(decodeURIComponent(atob(str)));
   if(o.lang && STR[o.lang]) lang = o.lang;
   Object.keys(DEF).forEach(k=>{ if(o[k]!==undefined) S[k]=o[k]; });
-  return o;
 }
 $("#btnLink").onclick = async ()=>{
-  const url = location.origin + location.pathname + "#b=" + encodeCfg();
-  history.replaceState(null,"", "#b=" + encodeCfg());
-  try{ await navigator.clipboard.writeText(url); toast(t("t_copied")); }
+  const hash = "#b=" + encodeCfg();
+  history.replaceState(null,"",hash);
+  try{ await navigator.clipboard.writeText(location.origin+location.pathname+hash); toast(t("t_copied")); }
   catch(e){ toast(t("t_copyfail")); }
 };
 $("#btnSave").onclick = ()=>{
-  const data = Object.assign({}, S, {lang:lang, logo: logoImg ? logoImg.src : null, _tirilla:1});
+  const data = Object.assign({}, S, {lang, logo: logoImg? logoImg.src : null, _tirilla:1});
   const blob = new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
   a.download = (S.title.trim().replace(/[^\w\s-]/g,"") || "booth") + ".tirilla.json";
-  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
-  toast(t("t_saved"));
+  a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); toast(t("t_saved"));
 };
 $("#btnLoad").onclick = ()=> $("#fLoad").click();
 $("#fLoad").onchange = e => {
@@ -726,8 +890,7 @@ $("#fLoad").onchange = e => {
   const fr = new FileReader();
   fr.onload = ()=>{
     try{
-      const o = JSON.parse(fr.result);
-      if(!o || !o._tirilla) throw 0;
+      const o = JSON.parse(fr.result); if(!o || !o._tirilla) throw 0;
       Object.keys(DEF).forEach(k=>{ if(o[k]!==undefined) S[k]=o[k]; });
       if(o.lang && STR[o.lang]) lang = o.lang;
       if(o.logo){ const im=new Image(); im.onload=()=>{ logoImg=im; $("#btnLogoClear").classList.remove("hide"); drawPreview(); }; im.src=o.logo; }
@@ -740,34 +903,29 @@ $("#fLoad").onchange = e => {
 
 /* ═══════════ sound ═══════════ */
 let AC = null;
-function beep(freq, dur, vol){
+function beep(freq,dur,vol){
   if(!S.sound) return;
   try{
     if(!AC) AC = new (window.AudioContext||window.webkitAudioContext)();
     if(AC.state==="suspended") AC.resume();
-    const o = AC.createOscillator(), g = AC.createGain();
-    o.type = "sine"; o.frequency.value = freq;
-    g.gain.setValueAtTime(vol, AC.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.0001, AC.currentTime + dur);
-    o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime + dur);
+    const o=AC.createOscillator(), g=AC.createGain();
+    o.type="sine"; o.frequency.value=freq;
+    g.gain.setValueAtTime(vol,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+dur);
+    o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+dur);
   }catch(e){}
 }
 const tick = ()=> beep(660,.12,.16);
-const shutter = ()=> { beep(1500,.05,.2); setTimeout(()=>beep(340,.1,.15), 55); };
+const shutter = ()=> { beep(1500,.05,.2); setTimeout(()=>beep(340,.1,.15),55); };
 
 /* ═══════════ camera ═══════════ */
 const video = $("#video");
 let stream = null, facing = "user", busy = false;
-
 function applyMirror(){ video.classList.toggle("mirror", facing==="user" && S.mirror); }
-
 async function startCam(){
-  stopCam();
-  facing = S.back ? "environment" : facing;
+  stopCam(); facing = S.back ? "environment" : facing;
   try{
-    stream = await navigator.mediaDevices.getUserMedia({
-      video:{ facingMode: facing, width:{ideal:1920}, height:{ideal:1920} }, audio:false
-    });
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:1920},height:{ideal:1920}},audio:false});
     video.srcObject = stream; await video.play().catch(()=>{});
     $("#perm").classList.add("hide"); applyMirror(); return true;
   }catch(err){
@@ -775,16 +933,13 @@ async function startCam(){
     if(!window.isSecureContext) msg = t("p_insecure");
     else if(err && (err.name==="NotAllowedError"||err.name==="SecurityError")) msg = t("p_denied");
     else if(err && (err.name==="NotFoundError"||err.name==="OverconstrainedError")) msg = t("p_none");
-    $("#permMsg").textContent = msg; $("#perm").classList.remove("hide");
-    return false;
+    $("#permMsg").textContent = msg; $("#perm").classList.remove("hide"); return false;
   }
 }
 function stopCam(){ if(stream){ stream.getTracks().forEach(tr=>tr.stop()); stream=null; } }
-
 function grab(){
-  const A = LAY[S.layout].aspect;
+  const A = LAY[S.layout].aspect, long = 1600;
   const cv = document.createElement("canvas");
-  const long = 1600;
   cv.width  = A>=1 ? long : Math.round(long*A);
   cv.height = A>=1 ? Math.round(long/A) : long;
   const c = cv.getContext("2d");
@@ -796,61 +951,47 @@ function grab(){
 /* ═══════════ shoot sequence ═══════════ */
 const bulbs = $("#bulbframe");
 function makeBulbs(){
-  const mk = (sel,n)=>{ const e=$(sel); e.innerHTML=""; for(let i=0;i<n;i++){ const b=document.createElement("i"); b.className="bulb"; b.style.animationDelay=(i*0.12)+"s"; e.appendChild(b);} };
+  const mk=(sel,n)=>{ const e=$(sel); e.innerHTML=""; for(let i=0;i<n;i++){ const b=document.createElement("i"); b.className="bulb"; b.style.animationDelay=(i*0.12)+"s"; e.appendChild(b);} };
   mk(".edge.t",8); mk(".edge.b",8); mk(".edge.l",12); mk(".edge.r",12);
 }
 function flashBulbs(){ bulbs.classList.add("tick"); setTimeout(()=>bulbs.classList.remove("tick"),140); }
-
 function setSlots(shots){
-  const slots = $$("#counter .slot");
-  slots.forEach((s,i)=>{
+  $$("#counter .slot").forEach((s,i)=>{
     s.classList.toggle("active", i===shots.length);
     s.innerHTML = "";
-    if(shots[i]){ const im=document.createElement("img"); im.src = shots[i].toDataURL("image/jpeg",.6); s.appendChild(im); }
+    if(shots[i]){ const im=document.createElement("img"); im.src=shots[i].toDataURL("image/jpeg",.6); s.appendChild(im); }
   });
 }
 const wait = ms => new Promise(r=>setTimeout(r,ms));
 
 async function runSequence(){
   if(busy || !stream) return;
-  busy = true;
-  $("#btnShoot").disabled = true;
-  const shots = [];
-  setSlots(shots);
-  for(let n=1; n<=3; n++){
+  busy = true; $("#btnShoot").disabled = true;
+  const shots = []; setSlots(shots);
+  for(let n=1;n<=3;n++){
     $("#boothNote").textContent = t("t_shot", n);
-    for(let k=S.count; k>0; k--){
-      $("#count").classList.add("on");
-      $("#count").innerHTML = "<b>"+k+"</b>";
-      flashBulbs(); tick();
-      await wait(1000);
+    for(let k=S.count;k>0;k--){
+      $("#count").classList.add("on"); $("#count").innerHTML = "<b>"+k+"</b>";
+      flashBulbs(); tick(); await wait(1000);
     }
     $("#count").innerHTML = "<b>" + (lang==="es" ? "¡YA!" : "GO") + "</b>";
-    await wait(220);
-    $("#count").classList.remove("on");
+    await wait(220); $("#count").classList.remove("on");
     $("#flash").classList.add("go"); shutter();
-    shots.push(grab());
-    setSlots(shots);
-    setTimeout(()=>$("#flash").classList.remove("go"), 320);
+    shots.push(grab()); setSlots(shots);
+    setTimeout(()=>$("#flash").classList.remove("go"),320);
     if(n<3) await wait(900);
   }
   $("#boothNote").textContent = t("t_making");
   await wait(320);
   await finish(shots);
-  busy = false;
-  $("#btnShoot").disabled = false;
-  $("#boothNote").textContent = t("note_ready");
-  setSlots([]);
+  busy = false; $("#btnShoot").disabled = false;
+  $("#boothNote").textContent = t("note_ready"); setSlots([]);
 }
-
 async function finish(shots){
   await ensureFonts();
   const strip = buildFrame(shots, S);
-  const item = {
-    strip: strip.toDataURL("image/jpeg", .92),
-    photos: shots.map(s=>s.toDataURL("image/jpeg", .92)),
-    ts: Date.now()
-  };
+  const item = { strip: strip.toDataURL("image/jpeg",.92),
+    photos: shots.map(s=>s.toDataURL("image/jpeg",.92)), ts: Date.now() };
   session.unshift(item);
   showReview(item);
 }
@@ -861,12 +1002,11 @@ function showReview(item){
   current = item;
   $("#stripImg").src = item.strip;
   $("#review").classList.add("on");
-  const box = $("#print");
-  const img = $("#stripImg");
+  const box = $("#print"), img = $("#stripImg");
   const grow = ()=>{
     box.style.height = "0px";
     const target = img.getBoundingClientRect().width * (img.naturalHeight/img.naturalWidth);
-    requestAnimationFrame(()=>{ box.style.height = target + "px"; });
+    requestAnimationFrame(()=>{ box.style.height = target+"px"; });
   };
   if(img.complete && img.naturalWidth) grow(); else img.onload = grow;
 
@@ -875,42 +1015,35 @@ function showReview(item){
     const b = document.createElement("button");
     b.type="button"; b.setAttribute("aria-label","Share photo "+(i+1));
     const im = document.createElement("img"); im.src = p; b.appendChild(im);
-    b.onclick = ()=> shareItems([p], "photo");
+    b.onclick = ()=> shareItems([p],"photo");
     host.appendChild(b);
   });
   startAuto();
 }
 function startAuto(){
   clearTimeout(autoT); cancelAnimationFrame(autoRAF);
-  const bar = $("#autoBar"), total = 30000, t0 = performance.now();
+  const bar = $("#autoBar"), total = 40000, t0 = performance.now();
   const step = now => {
-    const p = Math.max(0, 1 - (now-t0)/total);
+    const p = Math.max(0, 1-(now-t0)/total);
     bar.style.transform = "scaleX("+p+")";
     if(p>0) autoRAF = requestAnimationFrame(step);
   };
   autoRAF = requestAnimationFrame(step);
   autoT = setTimeout(closeReview, total);
 }
+function pauseAuto(){ clearTimeout(autoT); cancelAnimationFrame(autoRAF); }
 $("#review").addEventListener("pointerdown", startAuto);
 function closeReview(){
-  clearTimeout(autoT); cancelAnimationFrame(autoRAF);
-  $("#print").style.height = "0px";
-  $("#review").classList.remove("on");
+  pauseAuto(); $("#print").style.height = "0px"; $("#review").classList.remove("on");
 }
 $("#btnDone").onclick = closeReview;
-$("#btnRetake").onclick = ()=>{
-  session = session.filter(x=>x!==current);
-  closeReview(); setTimeout(runSequence, 260);
-};
-$("#btnShare").onclick = ()=> current && shareItems([current.strip], "strip");
-$("#btnDl").onclick = ()=> current && download(current.strip, "tirilla-"+current.ts+".jpg");
-
-/* ═══════════ share / save ═══════════ */
-function download(dataURL, name){
-  const a = document.createElement("a"); a.href = dataURL; a.download = name; a.click();
-  toast(t("t_saved"));
+$("#btnRetake").onclick = ()=>{ session = session.filter(x=>x!==current); closeReview(); setTimeout(runSequence,260); };
+$("#btnShare").onclick = ()=> current && shareItems([current.strip],"strip");
+/* ═══════════ save / share ═══════════ */
+function download(dataURL,name){
+  const a=document.createElement("a"); a.href=dataURL; a.download=name; a.click();
 }
-async function toFile(dataURL, name){
+async function toFile(dataURL,name){
   const blob = await (await fetch(dataURL)).blob();
   return new File([blob], name, {type:"image/jpeg"});
 }
@@ -918,14 +1051,41 @@ async function shareItems(dataURLs, prefix){
   try{
     const files = await Promise.all(dataURLs.map((d,i)=> toFile(d, prefix+"-"+(i+1)+".jpg")));
     if(navigator.canShare && navigator.canShare({files})){
-      await navigator.share({ files, title: S.title || "Tirilla", text: S.title || "" });
+      await navigator.share({files, title:S.title||"Tirilla", text:S.title||""});
       toast(t("t_shared"));
     } else {
-      dataURLs.forEach((d,i)=> download(d, prefix+"-"+(i+1)+".jpg"));
+      dataURLs.forEach((d,i)=> setTimeout(()=>download(d, prefix+"-"+(i+1)+".jpg"), 240*i));
       toast(t("t_nofiles"));
     }
   }catch(e){ if(e && e.name!=="AbortError") toast(t("t_nofiles")); }
 }
+
+/* ═══════════ printing ═══════════ */
+function printStrips(urls){
+  if(!urls || !urls.length){ toast(t("t_nogal")); return; }
+  pauseAuto();
+  $("#printStyle").textContent = "@page{size:" + (PAGES[S.printSize]||"auto") + ";margin:0}";
+  const root = $("#printRoot"); root.innerHTML = "";
+  const twoUp = S.printTwoUp && S.layout === "strip";
+  const pending = [];
+  const addSheet = list => {
+    const sheet = document.createElement("div");
+    sheet.className = "sheet" + (list.length>1 ? " two" : "");
+    list.forEach(u=>{
+      const im = document.createElement("img"); im.src = u;
+      if(!im.complete) pending.push(new Promise(r=>{ im.onload=r; im.onerror=r; }));
+      sheet.appendChild(im);
+    });
+    root.appendChild(sheet);
+  };
+  urls.forEach(u=>{
+    for(let c=0;c<S.printCopies;c++) addSheet(twoUp ? [u,u] : [u]);
+  });
+  Promise.all(pending).then(()=> setTimeout(()=>{
+    window.print(); toast(t("t_sentprint")); startAuto();
+  }, 260));
+}
+
 
 /* ═══════════ gallery ═══════════ */
 function openGallery(){
@@ -944,44 +1104,31 @@ $("#btnGal").onclick = openGallery;
 $("#btnGalClose").onclick = ()=> $("#gallery").classList.remove("on");
 $("#btnShareAll").onclick = ()=>{
   if(!session.length){ toast(t("t_nogal")); return; }
-  shareItems(session.slice(0,12).map(s=>s.strip), "tirilla");
+  shareItems(session.slice(0,12).map(s=>s.strip),"tirilla");
 };
 
 /* ═══════════ booth in / out ═══════════ */
 async function openBooth(){
   await ensureFonts();
-  $("#setup").classList.remove("on");
-  $("#booth").classList.add("on");
-  makeBulbs();
-  $("#boothNote").textContent = t("note_ready");
+  $("#setup").classList.remove("on"); $("#booth").classList.add("on");
+  makeBulbs(); $("#boothNote").textContent = t("note_ready");
   if(!AC){ try{ AC = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
   await startCam();
 }
 function closeBooth(){
-  stopCam(); closeReview();
-  $("#gallery").classList.remove("on");
-  $("#booth").classList.remove("on");
-  $("#setup").classList.add("on");
-  syncControls();
+  stopCam(); closeReview(); $("#gallery").classList.remove("on");
+  $("#booth").classList.remove("on"); $("#setup").classList.add("on"); syncControls();
 }
 $("#btnStart").onclick = openBooth;
 $("#btnShoot").onclick = runSequence;
 $("#btnRetry").onclick = startCam;
 $("#btnPermBack").onclick = closeBooth;
-$("#btnFlip").onclick = async ()=>{
-  if(busy) return;
-  facing = facing==="user" ? "environment" : "user";
-  await startCam();
-};
-/* hold the corner button to leave the booth */
+$("#btnFlip").onclick = async ()=>{ if(busy) return; facing = facing==="user"?"environment":"user"; await startCam(); };
 let holdT = null;
 const btnExit = $("#btnExit");
-const holdStart = e => { holdT = setTimeout(()=>{ holdT=null; closeBooth(); }, 2000); };
-const holdEnd = e => { if(holdT){ clearTimeout(holdT); holdT=null; toast(t("t_hold")); } };
-btnExit.addEventListener("pointerdown", holdStart);
-btnExit.addEventListener("pointerup", holdEnd);
-btnExit.addEventListener("pointercancel", ()=>{ clearTimeout(holdT); holdT=null; });
-btnExit.addEventListener("pointerleave", ()=>{ clearTimeout(holdT); holdT=null; });
+btnExit.addEventListener("pointerdown", ()=>{ holdT = setTimeout(()=>{ holdT=null; closeBooth(); },2000); });
+btnExit.addEventListener("pointerup", ()=>{ if(holdT){ clearTimeout(holdT); holdT=null; toast(t("t_hold")); } });
+["pointercancel","pointerleave"].forEach(ev=> btnExit.addEventListener(ev, ()=>{ clearTimeout(holdT); holdT=null; }));
 
 document.addEventListener("visibilitychange", ()=>{
   if(document.hidden) stopCam();
