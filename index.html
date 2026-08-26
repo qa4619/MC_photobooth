@@ -147,6 +147,17 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
   .review-inner > .btn-row + .btn-row{margin-top:10px !important}
   .review-inner > .hint,.review-inner > .preview-cap,.review-inner > .singles,.review-inner > .autobar,.review-inner > .note{margin-top:22px !important}
 }
+@media (orientation:landscape) and (min-width:761px){
+  #review{overflow:hidden}
+  .review-inner{height:100dvh;min-height:0;padding:16px 24px;grid-template-columns:minmax(0,1fr) minmax(280px,360px);column-gap:clamp(24px,4vw,56px)}
+  .review-inner > .print{max-height:calc(100dvh - 32px);width:auto}
+  .review-inner > .print img{width:auto;max-width:100%;max-height:calc(100dvh - 32px);object-fit:contain}
+  .review-inner > .btn-row{gap:12px}
+  .review-inner > .preview-cap{margin-top:10px !important}
+  .review-inner > .singles{margin-top:8px}
+  .review-inner > .autobar{margin-top:12px}
+  .review-inner > .note{margin-top:6px !important}
+}
 .singles{display:flex;gap:9px;justify-content:center;margin-top:22px}
 .singles button{padding:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:none;width:74px;height:56px}
 .singles img{width:100%;height:100%;object-fit:cover;display:block}
@@ -382,7 +393,7 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
     <p class="hint" data-i="hint_gal">Everything shot on this phone since the booth opened. Reloading the page clears it, so save or send the keepers as you go.</p>
     <div class="btn-row" style="margin-top:14px">
       <button type="button" class="btn btn-primary" id="btnShareAll" data-i="b_shareall">Share every strip</button>
-      <button type="button" class="btn" id="btnPrintAll" data-i="b_printall">Print every strip</button>
+      <button type="button" class="btn" id="btnSaveAll" data-i="b_saveall">Save every strip</button>
     </div>
     <div class="gal-grid" id="galGrid"></div>
     <div class="empty hide" id="galEmpty" data-i="gal_empty">No strips yet. The first one lands here.</div>
@@ -422,14 +433,15 @@ const STR = {
     cap_singles:"Single photos", note_auto:"Back to the camera in a moment",
     h_gal:"Tonight", b_close:"Close",
     hint_gal:"Everything shot on this phone since the booth opened. Reloading the page clears it, so save or send the keepers as you go.",
-    b_shareall:"Share every strip", b_printall:"Print every strip",
+    b_shareall:"Share every strip", b_saveall:"Save every strip",
     gal_empty:"No strips yet. The first one lands here.",
     t_shot:"Photo %1 of 3", t_making:"Printing your strip",
     t_copied:"Booth link copied", t_copyfail:"Copy didn't work — the link is in the address bar",
     t_saved:"Downloaded", t_shared:"Sent", t_sentprint:"Sent to the printer",
     t_nofiles:"This browser can't hand images to other apps — the files downloaded instead",
     t_loaded:"Booth setup loaded", t_badfile:"That file isn't a booth setup",
-    t_nogal:"Nothing to print or share yet", t_hold:"Hold for two seconds to open settings",
+    t_nogal:"Nothing to save or share yet", t_savedall:"All strips and photos saved", t_savefallback:"The files were downloaded instead",
+    t_hold:"Hold for two seconds to open settings",
     p_denied:"The camera is blocked. In Safari, tap “AA” in the address bar → Website Settings → Camera → Allow, then reload.",
     p_insecure:"The camera needs a secure connection. Open this page over https:// and it will work.",
     p_none:"No camera found on this device.",
@@ -462,14 +474,15 @@ const STR = {
     cap_singles:"Fotos sueltas", note_auto:"Volvemos a la cámara en un momento",
     h_gal:"Esta noche", b_close:"Cerrar",
     hint_gal:"Todo lo que se tomó en este teléfono desde que abrió el fotomatón. Recargar la página lo borra, así que guarda o envía sobre la marcha.",
-    b_shareall:"Compartir todas", b_printall:"Imprimir todas",
+    b_shareall:"Compartir todas", b_saveall:"Guardar todas",
     gal_empty:"Aún no hay tirillas. La primera aparece aquí.",
     t_shot:"Foto %1 de 3", t_making:"Imprimiendo la tirilla",
     t_copied:"Enlace copiado", t_copyfail:"No se pudo copiar — el enlace está en la barra de direcciones",
     t_saved:"Descargado", t_shared:"Enviado", t_sentprint:"Enviado a la impresora",
     t_nofiles:"Este navegador no entrega imágenes a otras apps — se descargaron los archivos",
     t_loaded:"Configuración cargada", t_badfile:"Ese archivo no es una configuración del fotomatón",
-    t_nogal:"Todavía no hay nada que imprimir o compartir", t_hold:"Mantén pulsado dos segundos para abrir los ajustes",
+    t_nogal:"Todavía no hay nada que guardar o compartir", t_savedall:"Todas las tirillas y fotos se guardaron", t_savefallback:"Los archivos se descargaron en su lugar",
+    t_hold:"Mantén pulsado dos segundos para abrir los ajustes",
     p_denied:"La cámara está bloqueada. En Safari toca «AA» en la barra de direcciones → Ajustes del sitio web → Cámara → Permitir, y recarga.",
     p_insecure:"La cámara necesita una conexión segura. Abre esta página con https:// y funcionará.",
     p_none:"No se encontró ninguna cámara en este dispositivo.",
@@ -1060,6 +1073,37 @@ async function shareItems(dataURLs, prefix){
   }catch(e){ if(e && e.name!=="AbortError") toast(t("t_nofiles")); }
 }
 
+async function saveAll(){
+  if(!session.length){ toast(t("t_nogal")); return; }
+  const files = [];
+  session.forEach((item, i)=>{
+    const number = String(session.length-i).padStart(2,"0");
+    files.push({data:item.strip, name:"strip-"+number+".jpg"});
+    item.photos.forEach((photo, photoIndex)=>{
+      files.push({data:photo, name:"strip-"+number+"-photo-"+(photoIndex+1)+".jpg"});
+    });
+  });
+
+  if(window.showDirectoryPicker){
+    try{
+      const directory = await window.showDirectoryPicker({mode:"readwrite"});
+      for(const file of files){
+        const handle = await directory.getFileHandle(file.name,{create:true});
+        const writable = await handle.createWritable();
+        await writable.write(await (await fetch(file.data)).blob());
+        await writable.close();
+      }
+      toast(t("t_savedall"));
+      return;
+    }catch(e){
+      if(e && e.name==="AbortError") return;
+    }
+  }
+
+  files.forEach((file, i)=>setTimeout(()=>download(file.data,file.name),240*i));
+  toast(t("t_savefallback"));
+}
+
 /* ═══════════ printing ═══════════ */
 function printStrips(urls){
   if(!urls || !urls.length){ toast(t("t_nogal")); return; }
@@ -1106,6 +1150,7 @@ $("#btnShareAll").onclick = ()=>{
   if(!session.length){ toast(t("t_nogal")); return; }
   shareItems(session.slice(0,12).map(s=>s.strip),"tirilla");
 };
+$("#btnSaveAll").onclick = saveAll;
 
 /* ═══════════ booth in / out ═══════════ */
 async function openBooth(){
