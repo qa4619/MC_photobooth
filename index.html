@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Playfair+Display:ital,wght@0,600;1,600&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style id="printStyle">@page{size:auto;margin:0}</style>
 <style>
 :root{
@@ -72,12 +73,13 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
 .sw-toggle::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:var(--dim);transition:transform .18s ease,background .18s ease}
 .sw-toggle[aria-pressed="true"]{background:rgba(255,194,74,.22);border-color:var(--bulb)}
 .sw-toggle[aria-pressed="true"]::after{transform:translateX(21px);background:var(--bulb)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);padding:13px 18px;font-size:15px;font-weight:500}
-.btn:active{transform:scale(.985)}
-.btn-primary{background:var(--bulb);color:#2A1B05;border-color:var(--bulb);font-weight:700;box-shadow:0 8px 30px rgba(255,194,74,.22)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:3px;border-radius:5px;border:1.5px solid var(--bulb);background:rgba(255,194,74,.08);padding:4px 8px;font-size:9px;font-weight:600;box-shadow:inset 0 0 0 1px var(--ink);transition:all .18s ease;color:var(--paper);white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn:hover{background:rgba(255,194,74,.14);box-shadow:inset 0 0 0 1.5px var(--ink),0 0 0 1px var(--bulb)}
+.btn-primary{background:var(--bulb);color:#2A1B05;border-color:var(--bulb);font-weight:700;box-shadow:inset 0 0 0 1.5px #2A1B05,0 2px 8px rgba(255,194,74,.25)}
 .btn-block{width:100%}
-.btn-row{display:flex;gap:10px;flex-wrap:wrap}
-.btn-row .btn{flex:1 1 148px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row .btn{flex:1 1 100px;min-width:90px}
 .preview-col{position:sticky;top:18px}
 .preview-stage{background:repeating-conic-gradient(#241A48 0% 25%,#1C1338 0% 50%) 0 0/22px 22px;border:1px solid var(--line);border-radius:18px;padding:22px;display:flex;justify-content:center}
 #previewCanvas{max-width:100%;max-height:56dvh;border-radius:4px;box-shadow:0 18px 44px rgba(0,0,0,.55)}
@@ -118,52 +120,44 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
 .permission{position:absolute;inset:0;display:grid;place-items:center;padding:30px;text-align:center;background:var(--ink)}
 .permission div{max-width:420px}
 
-#review{position:fixed;inset:0;background:var(--ink);display:none;overflow-y:auto}
-#review.on{display:block}
-.slot-bar{height:12px;border-radius:3px;background:linear-gradient(180deg,#0C0819,#241A48);border:1px solid var(--line);box-shadow:0 3px 14px rgba(0,0,0,.6);width:min(86vw,330px);margin:0 auto}
-.print{width:min(86vw,330px);margin:0 auto;overflow:hidden;height:0;transition:height 1.15s cubic-bezier(.2,.9,.25,1)}
-.print img{width:100%;display:block;box-shadow:0 26px 60px rgba(0,0,0,.6)}
+#review{position:fixed;inset:0;background:var(--ink);display:none;overflow:hidden;flex-direction:column}
+#review.on{display:flex}
+.slot-bar{height:12px;border-radius:3px;background:linear-gradient(180deg,#0C0819,#241A48);border:1px solid var(--line);box-shadow:0 3px 14px rgba(0,0,0,.6);width:min(86vw,330px);margin:0 auto;display:none}
+.print{width:100%;height:0;transition:height 1.15s cubic-bezier(.2,.9,.25,1);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.print img{max-height:90vh;max-width:100%;object-fit:contain;display:block;box-shadow:0 26px 60px rgba(0,0,0,.6)}
 @media(prefers-reduced-motion:reduce){.print{transition:none}.sign .rail i,.bulbframe.live .bulb{animation:none}#count b{animation:none}}
-.review-inner{max-width:1120px;min-height:100%;margin:0 auto;padding:calc(26px + env(safe-area-inset-top)) 28px calc(30px + env(safe-area-inset-bottom));display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,420px);grid-template-rows:1fr;column-gap:clamp(28px,5vw,72px);align-items:center}
-.review-inner > .slot-bar,.review-inner > .print{grid-column:1;grid-row:1 / span 5}
-.review-inner > .slot-bar{align-self:start;margin-top:0}
-.review-inner > .print{align-self:center;margin:0 auto;width:min(100%,420px)}
-.review-inner > .btn-row,.review-inner > .hint,.review-inner > .preview-cap,.review-inner > .singles,.review-inner > .autobar,.review-inner > .note{grid-column:2}
-.review-inner > .btn-row{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;gap:22px}
-.review-inner > .btn-row .shutter{width:min(100%,330px);flex:none}
-.review-inner > .btn-row:first-of-type{margin-top:0 !important}
-.review-inner > .btn-row:nth-of-type(2){display:none}
-.review-inner > .hint{display:none}
-.review-inner > .preview-cap{margin:16px 0 0 !important}
-.review-inner > .singles{margin:10px 0 0}
-.review-inner > .autobar{margin-top:18px}
-.review-inner > .note{margin:9px 0 0 !important}
-@media(max-width:760px){
-  .review-inner{max-width:520px;display:block;padding-left:20px;padding-right:20px}
-  .review-inner > .slot-bar,.review-inner > .print{display:block}
-  .review-inner > .slot-bar{margin:0 auto}
-  .review-inner > .print{margin:0 auto}
-  .review-inner > .btn-row{display:flex;flex-direction:column;align-items:center;margin-top:24px !important}
-  .review-inner > .btn-row + .btn-row{margin-top:10px !important}
-  .review-inner > .hint,.review-inner > .preview-cap,.review-inner > .singles,.review-inner > .autobar,.review-inner > .note{margin-top:22px !important}
+@media(max-width:1024px){
+  .review-inner{grid-template-columns:1fr;overflow-y:auto}
+  .review-inner > .print{grid-column:1;height:auto}
+  .review-inner > .btn-row{grid-column:1;flex-direction:row}
+  .review-inner > .btn-row .btn{flex:1}
+  .review-inner > .qr-section{grid-column:1}
+  .review-inner > .autobar{grid-column:1;margin-top:20px}
+  .singles{display:flex!important}
+  .preview-cap{display:block!important}
+  .hint{display:block!important}
+  .note{display:block!important}
 }
-@media (orientation:landscape) and (min-width:761px){
-  #review{overflow:hidden}
-  .review-inner{height:100dvh;min-height:0;padding:16px 24px;grid-template-columns:minmax(0,1fr) minmax(280px,360px);column-gap:clamp(24px,4vw,56px)}
-  .review-inner > .print{max-height:calc(100dvh - 32px);width:auto}
-  .review-inner > .print img{width:auto;max-width:100%;max-height:calc(100dvh - 32px);object-fit:contain}
-  .review-inner > .btn-row{gap:12px}
-  .review-inner > .preview-cap{margin-top:10px !important}
-  .review-inner > .singles{margin-top:8px}
-  .review-inner > .autobar{margin-top:12px}
-  .review-inner > .note{margin-top:6px !important}
-}
-.singles{display:flex;gap:9px;justify-content:center;margin-top:22px}
+.review-inner{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:20px;padding-top:calc(20px + env(safe-area-inset-top));padding-bottom:calc(20px + env(safe-area-inset-bottom));align-items:stretch;overflow:hidden}
+.singles{display:none}
 .singles button{padding:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:none;width:74px;height:56px}
 .singles img{width:100%;height:100%;object-fit:cover;display:block}
-.autobar{height:3px;border-radius:2px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:22px}
+.autobar{height:2px;border-radius:1px;background:rgba(255,255,255,.14);margin-top:auto}
 .autobar i{display:block;height:100%;background:var(--bulb);width:100%;transform-origin:left}
 .note{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);text-align:center}
+.qr-section{display:none;text-align:center;padding:8px;background:rgba(255,194,74,.06);border:1.5px solid var(--bulb);border-radius:6px;box-shadow:inset 0 0 0 1px var(--ink);grid-column:2}
+.qr-section:not(.hide){display:block}
+#qrCode{display:inline-block;padding:6px;background:#fff;border-radius:5px;border:1.5px solid var(--bulb)}
+#qrCode canvas{display:block;max-width:120px;height:auto}
+.review-inner > .print{grid-column:1;width:100%;height:100%}
+.review-inner > .slot-bar{grid-column:1}
+.review-inner > .btn-row{grid-column:2;display:flex;flex-direction:column;gap:10px}
+.review-inner > .qr-section{grid-column:2}
+.review-inner > .hint{display:none}
+.review-inner > .preview-cap{display:none}
+.review-inner > .note{display:none}
+.review-inner > .singles{display:none}
+.review-inner > .autobar{grid-column:2;margin-top:auto}
 
 #gallery{position:fixed;inset:0;background:var(--ink);display:none;overflow-y:auto;z-index:5}
 #gallery.on{display:block}
@@ -369,17 +363,23 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
 <!-- ══════════════ REVIEW ══════════════ -->
 <section id="review" aria-label="Your strip">
   <div class="review-inner">
-    <div class="slot-bar" aria-hidden="true"></div>
     <div class="print" id="print"><img id="stripImg" alt="Photo strip"></div>
-    <div class="btn-row" style="margin-top:24px">
-      <button type="button" class="shutter" id="btnShare">Share</button>
-      <button type="button" class="shutter" id="btnRetake" data-i="b_retake">Take it again</button>
-      <button type="button" class="shutter" id="btnDone" data-i="b_done">Done</button>
+    <div style="display:flex;flex-direction:column;gap:20px;overflow-y:auto;grid-column:2;justify-content:space-between">
+      <div class="btn-row" style="margin:0;flex-direction:column;gap:16px;flex:1;justify-content:center">
+        <button type="button" class="btn" id="btnShare" data-i="b_share">Send to WhatsApp</button>
+        <button type="button" class="btn" id="btnQRCode">Download Picture</button>
+      </div>
+      <div class="qr-section hide" id="qrSection">
+        <p style="margin:0 0 10px 0;font-size:11px">Scan to download</p>
+        <div id="qrCode"></div>
+        <button type="button" class="btn" id="btnCloseQR" style="margin-top:10px;padding:3px 6px;font-size:8px">Close</button>
+      </div>
+      <div class="btn-row" style="margin:0;flex-direction:column;gap:16px;flex:1;justify-content:center">
+        <button type="button" class="btn" id="btnRetake" data-i="b_retake">Take it again</button>
+        <button type="button" class="btn" id="btnDone" data-i="b_done">Done</button>
+      </div>
+      <div class="autobar" aria-hidden="true" style="margin-top:auto"><i id="autoBar"></i></div>
     </div>
-    <p class="preview-cap" style="margin-top:22px" data-i="cap_singles">Single photos</p>
-    <div class="singles" id="singles"></div>
-    <div class="autobar" aria-hidden="true"><i id="autoBar"></i></div>
-    <p class="note" style="margin-top:9px;color:var(--dim)" data-i="note_auto">Back to the camera in a moment</p>
   </div>
 </section>
 
@@ -393,7 +393,7 @@ input[type=range]{width:100%;accent-color:var(--bulb)}
     <p class="hint" data-i="hint_gal">Everything shot on this phone since the booth opened. Reloading the page clears it, so save or send the keepers as you go.</p>
     <div class="btn-row" style="margin-top:14px">
       <button type="button" class="btn btn-primary" id="btnShareAll" data-i="b_shareall">Share every strip</button>
-      <button type="button" class="btn" id="btnSaveAll" data-i="b_saveall">Save every strip</button>
+      <button type="button" class="btn" id="btnPrintAll" data-i="b_printall">Print every strip</button>
     </div>
     <div class="gal-grid" id="galGrid"></div>
     <div class="empty hide" id="galEmpty" data-i="gal_empty">No strips yet. The first one lands here.</div>
@@ -429,19 +429,19 @@ const STR = {
     hint_start:"Guests only see the camera. Hold the corner button for two seconds to come back here.",
     note_ready:"Three photos, one strip", b_shoot:"TAP TO START", b_retry:"Try the camera again",
     b_back:"Back to settings",
-    b_share:"Share", b_retake:"Take it again", b_done:"Done",
+    b_share:"Send to WhatsApp", b_dl:"Send to Text", b_retake:"Take it again", b_done:"Done",
+    hint_save:"Save to Photos hands the strip and all three photos to iOS — choose Save 4 Images.",
     cap_singles:"Single photos", note_auto:"Back to the camera in a moment",
     h_gal:"Tonight", b_close:"Close",
     hint_gal:"Everything shot on this phone since the booth opened. Reloading the page clears it, so save or send the keepers as you go.",
-    b_shareall:"Share every strip", b_saveall:"Save every strip",
+    b_shareall:"Share every strip", b_printall:"Print every strip",
     gal_empty:"No strips yet. The first one lands here.",
     t_shot:"Photo %1 of 3", t_making:"Printing your strip",
     t_copied:"Booth link copied", t_copyfail:"Copy didn't work — the link is in the address bar",
     t_saved:"Downloaded", t_shared:"Sent", t_sentprint:"Sent to the printer",
     t_nofiles:"This browser can't hand images to other apps — the files downloaded instead",
     t_loaded:"Booth setup loaded", t_badfile:"That file isn't a booth setup",
-    t_nogal:"Nothing to save or share yet", t_savedall:"All strips and photos saved", t_savefallback:"The files were downloaded instead",
-    t_hold:"Hold for two seconds to open settings",
+    t_nogal:"Nothing to print or share yet", t_hold:"Hold for two seconds to open settings",
     p_denied:"The camera is blocked. In Safari, tap “AA” in the address bar → Website Settings → Camera → Allow, then reload.",
     p_insecure:"The camera needs a secure connection. Open this page over https:// and it will work.",
     p_none:"No camera found on this device.",
@@ -470,19 +470,19 @@ const STR = {
     hint_start:"Los invitados solo ven la cámara. Mantén pulsado el botón de la esquina dos segundos para volver aquí.",
     note_ready:"Tres fotos, una tirilla", b_shoot:"TOCA PARA EMPEZAR", b_retry:"Reintentar la cámara",
     b_back:"Volver a los ajustes", b_saveall:"Guardar en Fotos", b_print:"Imprimir",
-    b_share:"Compartir", b_retake:"Repetir", b_done:"Listo",
+    b_share:"Enviar por WhatsApp", b_dl:"Descargar archivos", b_retake:"Repetir", b_done:"Listo",
+    hint_save:"Guardar en Fotos le entrega a iOS la tirilla y las tres fotos — elige Guardar 4 imágenes.",
     cap_singles:"Fotos sueltas", note_auto:"Volvemos a la cámara en un momento",
     h_gal:"Esta noche", b_close:"Cerrar",
     hint_gal:"Todo lo que se tomó en este teléfono desde que abrió el fotomatón. Recargar la página lo borra, así que guarda o envía sobre la marcha.",
-    b_shareall:"Compartir todas", b_saveall:"Guardar todas",
+    b_shareall:"Compartir todas", b_printall:"Imprimir todas",
     gal_empty:"Aún no hay tirillas. La primera aparece aquí.",
     t_shot:"Foto %1 de 3", t_making:"Imprimiendo la tirilla",
     t_copied:"Enlace copiado", t_copyfail:"No se pudo copiar — el enlace está en la barra de direcciones",
     t_saved:"Descargado", t_shared:"Enviado", t_sentprint:"Enviado a la impresora",
     t_nofiles:"Este navegador no entrega imágenes a otras apps — se descargaron los archivos",
     t_loaded:"Configuración cargada", t_badfile:"Ese archivo no es una configuración del fotomatón",
-    t_nogal:"Todavía no hay nada que guardar o compartir", t_savedall:"Todas las tirillas y fotos se guardaron", t_savefallback:"Los archivos se descargaron en su lugar",
-    t_hold:"Mantén pulsado dos segundos para abrir los ajustes",
+    t_nogal:"Todavía no hay nada que imprimir o compartir", t_hold:"Mantén pulsado dos segundos para abrir los ajustes",
     p_denied:"La cámara está bloqueada. En Safari toca «AA» en la barra de direcciones → Ajustes del sitio web → Cámara → Permitir, y recarga.",
     p_insecure:"La cámara necesita una conexión segura. Abre esta página con https:// y funcionará.",
     p_none:"No se encontró ninguna cámara en este dispositivo.",
@@ -1052,6 +1052,30 @@ function closeReview(){
 $("#btnDone").onclick = closeReview;
 $("#btnRetake").onclick = ()=>{ session = session.filter(x=>x!==current); closeReview(); setTimeout(runSequence,260); };
 $("#btnShare").onclick = ()=> current && shareItems([current.strip],"strip");
+$("#btnQRCode").onclick = ()=>{
+  if(!current) return;
+  const qrContainer = $("#qrCode");
+  qrContainer.innerHTML = "";
+  try {
+    new QRCode(qrContainer, {
+      text: current.strip,
+      width: 256,
+      height: 256,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    $("#qrSection").classList.remove("hide");
+    pauseAuto();
+  } catch(e) {
+    toast("QR code generation failed. Use WhatsApp to share instead.");
+  }
+};
+$("#btnCloseQR").onclick = ()=>{
+  $("#qrSection").classList.add("hide");
+  startAuto();
+};
+
 /* ═══════════ save / share ═══════════ */
 function download(dataURL,name){
   const a=document.createElement("a"); a.href=dataURL; a.download=name; a.click();
@@ -1071,84 +1095,6 @@ async function shareItems(dataURLs, prefix){
       toast(t("t_nofiles"));
     }
   }catch(e){ if(e && e.name!=="AbortError") toast(t("t_nofiles")); }
-}
-
-async function saveAll(){
-  if(!session.length){ toast(t("t_nogal")); return; }
-  const files = [];
-  session.forEach((item, i)=>{
-    const number = String(session.length-i).padStart(2,"0");
-    files.push({data:item.strip, name:"strip-"+number+".jpg"});
-    item.photos.forEach((photo, photoIndex)=>{
-      files.push({data:photo, name:"strip-"+number+"-photo-"+(photoIndex+1)+".jpg"});
-    });
-  });
-
-  if(window.showDirectoryPicker){
-    try{
-      const directory = await window.showDirectoryPicker({mode:"readwrite"});
-      for(const file of files){
-        const handle = await directory.getFileHandle(file.name,{create:true});
-        const writable = await handle.createWritable();
-        await writable.write(await (await fetch(file.data)).blob());
-        await writable.close();
-      }
-      toast(t("t_savedall"));
-      return;
-    }catch(e){
-      if(e && e.name==="AbortError") return;
-    }
-  }
-
-  const zip = await makeZip(files);
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(zip);
-  a.download = "Tirilla.zip";
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
-  toast(t("t_savedall"));
-}
-
-function crc32(bytes){
-  let crc = 0xFFFFFFFF;
-  for(const byte of bytes){
-    crc ^= byte;
-    for(let bit=0; bit<8; bit++) crc = (crc>>>1) ^ (0xEDB88320 & -(crc&1));
-  }
-  return (crc ^ 0xFFFFFFFF) >>> 0;
-}
-function put32(view, offset, value){ view.setUint32(offset, value, true); }
-async function makeZip(files){
-  const chunks = [], entries = [];
-  let offset = 0;
-  for(const file of files){
-    const name = new TextEncoder().encode("Tirilla/"+file.name);
-    const data = new Uint8Array(await (await fetch(file.data)).arrayBuffer());
-    const local = new Uint8Array(30 + name.length);
-    const localView = new DataView(local.buffer);
-    put32(localView,0,0x04034B50); localView.setUint16(4,20,true);
-    localView.setUint16(6,0,true); localView.setUint16(8,0,true);
-    put32(localView,14,crc32(data)); put32(localView,18,data.length); put32(localView,22,data.length);
-    localView.setUint16(26,name.length,true); local.set(name,30);
-    chunks.push(local,data); entries.push({name,data,offset}); offset += local.length + data.length;
-  }
-  const centralStart = offset;
-  for(const entry of entries){
-    const name = new TextEncoder().encode(entry.name);
-    const data = entry.data, central = new Uint8Array(46 + name.length);
-    const view = new DataView(central.buffer);
-    put32(view,0,0x02014B50); view.setUint16(4,20,true); view.setUint16(6,20,true);
-    view.setUint16(8,0,true); view.setUint16(10,0,true);
-    put32(view,16,crc32(data)); put32(view,20,data.length); put32(view,24,data.length);
-    view.setUint16(28,name.length,true); view.setUint16(30,0,true); view.setUint16(32,0,true);
-    view.setUint16(34,0,true); view.setUint16(36,0,true); put32(view,42,entry.offset);
-    central.set(name,46); chunks.push(central); offset += central.length;
-  }
-  const end = new Uint8Array(22), endView = new DataView(end.buffer);
-  put32(endView,0,0x06054B50); endView.setUint16(8,entries.length,true);
-  endView.setUint16(10,entries.length,true); put32(endView,12,offset-centralStart);
-  put32(endView,16,centralStart); chunks.push(end);
-  return new Blob(chunks,{type:"application/zip"});
 }
 
 /* ═══════════ printing ═══════════ */
@@ -1197,7 +1143,6 @@ $("#btnShareAll").onclick = ()=>{
   if(!session.length){ toast(t("t_nogal")); return; }
   shareItems(session.slice(0,12).map(s=>s.strip),"tirilla");
 };
-$("#btnSaveAll").onclick = saveAll;
 
 /* ═══════════ booth in / out ═══════════ */
 async function openBooth(){
