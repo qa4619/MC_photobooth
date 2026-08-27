@@ -1100,8 +1100,55 @@ async function saveAll(){
     }
   }
 
-  files.forEach((file, i)=>setTimeout(()=>download(file.data,file.name),240*i));
-  toast(t("t_savefallback"));
+  const zip = await makeZip(files);
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(zip);
+  a.download = "Tirilla.zip";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  toast(t("t_savedall"));
+}
+
+function crc32(bytes){
+  let crc = 0xFFFFFFFF;
+  for(const byte of bytes){
+    crc ^= byte;
+    for(let bit=0; bit<8; bit++) crc = (crc>>>1) ^ (0xEDB88320 & -(crc&1));
+  }
+  return (crc ^ 0xFFFFFFFF) >>> 0;
+}
+function put32(view, offset, value){ view.setUint32(offset, value, true); }
+async function makeZip(files){
+  const chunks = [], entries = [];
+  let offset = 0;
+  for(const file of files){
+    const name = new TextEncoder().encode("Tirilla/"+file.name);
+    const data = new Uint8Array(await (await fetch(file.data)).arrayBuffer());
+    const local = new Uint8Array(30 + name.length);
+    const localView = new DataView(local.buffer);
+    put32(localView,0,0x04034B50); localView.setUint16(4,20,true);
+    localView.setUint16(6,0,true); localView.setUint16(8,0,true);
+    put32(localView,14,crc32(data)); put32(localView,18,data.length); put32(localView,22,data.length);
+    localView.setUint16(26,name.length,true); local.set(name,30);
+    chunks.push(local,data); entries.push({name,data,offset}); offset += local.length + data.length;
+  }
+  const centralStart = offset;
+  for(const entry of entries){
+    const name = new TextEncoder().encode(entry.name);
+    const data = entry.data, central = new Uint8Array(46 + name.length);
+    const view = new DataView(central.buffer);
+    put32(view,0,0x02014B50); view.setUint16(4,20,true); view.setUint16(6,20,true);
+    view.setUint16(8,0,true); view.setUint16(10,0,true);
+    put32(view,16,crc32(data)); put32(view,20,data.length); put32(view,24,data.length);
+    view.setUint16(28,name.length,true); view.setUint16(30,0,true); view.setUint16(32,0,true);
+    view.setUint16(34,0,true); view.setUint16(36,0,true); put32(view,42,entry.offset);
+    central.set(name,46); chunks.push(central); offset += central.length;
+  }
+  const end = new Uint8Array(22), endView = new DataView(end.buffer);
+  put32(endView,0,0x06054B50); endView.setUint16(8,entries.length,true);
+  endView.setUint16(10,entries.length,true); put32(endView,12,offset-centralStart);
+  put32(endView,16,centralStart); chunks.push(end);
+  return new Blob(chunks,{type:"application/zip"});
 }
 
 /* ═══════════ printing ═══════════ */
