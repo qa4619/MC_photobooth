@@ -1089,23 +1089,16 @@ async function saveAll(){
 
   if(!files.length){ toast(t("t_nogal")); return; }
 
-  if(window.showDirectoryPicker){
-    try{
-      const directory = await window.showDirectoryPicker({mode:"readwrite"});
-      for(const file of files){
-        const handle = await directory.getFileHandle(file.name,{create:true});
-        const writable = await handle.createWritable();
-        await writable.write(await (await fetch(file.data)).blob());
-        await writable.close();
-      }
+  try{
+    const fileList = await Promise.all(files.map(f=>toFile(f.data,f.name)));
+    if(navigator.canShare && navigator.canShare({files:fileList})){
+      await navigator.share({files:fileList, title:S.title||"Tirilla", text:S.title||""});
       toast(t("t_savedall"));
       return;
-    }catch(e){
-      if(e && e.name==="AbortError") return;
     }
-  }
+  }catch(e){ if(e && e.name==="AbortError") return; }
 
-  files.forEach((file, i)=>setTimeout(()=>download(file.data,file.name),240*i));
+  files.forEach((file)=>download(file.data,file.name));
   toast(t("t_savefallback"));
 }
 
