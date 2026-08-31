@@ -1052,6 +1052,7 @@ function closeReview(){
 $("#btnDone").onclick = closeReview;
 $("#btnRetake").onclick = ()=>{ session = session.filter(x=>x!==current); closeReview(); setTimeout(runSequence,260); };
 $("#btnShare").onclick = ()=> current && shareItems([current.strip],"strip");
+
 /* ═══════════ save / share ═══════════ */
 function download(dataURL,name){
   const a=document.createElement("a"); a.href=dataURL; a.download=name; a.click();
@@ -1076,13 +1077,17 @@ async function shareItems(dataURLs, prefix){
 async function saveAll(){
   if(!session.length){ toast(t("t_nogal")); return; }
   const files = [];
-  session.forEach((item, i)=>{
-    const number = String(session.length-i).padStart(2,"0");
-    files.push({data:item.strip, name:"strip-"+number+".jpg"});
-    item.photos.forEach((photo, photoIndex)=>{
-      files.push({data:photo, name:"strip-"+number+"-photo-"+(photoIndex+1)+".jpg"});
+  session.forEach((item, itemIndex)=>{
+    if(!item) return;
+    const number = String(session.length-itemIndex).padStart(2,"0");
+    if(item.strip){ files.push({data:item.strip, name:"strip-"+number+".jpg"}); }
+    const photos = Array.isArray(item.photos) ? item.photos : [];
+    photos.forEach((photo, photoIndex)=>{
+      if(photo){ files.push({data:photo, name:"strip-"+number+"-photo-"+(photoIndex+1)+".jpg"}); }
     });
   });
+
+  if(!files.length){ toast(t("t_nogal")); return; }
 
   if(window.showDirectoryPicker){
     try{
